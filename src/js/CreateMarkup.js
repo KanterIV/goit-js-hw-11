@@ -10,7 +10,7 @@ export default function CreateMarkup(arr) {
         comments,
         downloads,
       }) => {
-        `<div class="photo-card">
+        const card = `<div class="photo-card">
       <img src="${webformatURL}" alt="${tags}" loading="lazy" />
       <div class="info">
         <p class="info-item">
@@ -27,6 +27,7 @@ export default function CreateMarkup(arr) {
         </p>
       </div>
     </div>`;
+        return card;
       }
     )
     .join('');
