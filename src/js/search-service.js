@@ -1,6 +1,10 @@
 import axios, { Axios } from 'axios';
 
-export default async function searchService(userInput) {
+export default async function searchService(
+  userInput,
+  photoLimit,
+  currentPage
+) {
   const API_KEY = '38910037-843ad78f1fab8f9e210e82581';
   const BASE_URL = 'https://pixabay.com/api/';
 
@@ -10,10 +14,10 @@ export default async function searchService(userInput) {
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: 'true',
+    per_page: photoLimit,
+    page: currentPage,
   };
 
-  const {
-    data: { hits },
-  } = await axios.get(BASE_URL);
-  return hits;
+  const data = await axios.get(BASE_URL);
+  return data;
 }
