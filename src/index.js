@@ -86,6 +86,16 @@ function onLoadMoreClick() {
     .then(({ data: { hits } }) => {
       refs.gallary.insertAdjacentHTML('beforeend', CreateMarkup(hits));
       refs.loadMore.disabled = false;
+
+      const { height: cardHeight } = document
+        .querySelector('.gallery')
+        .firstElementChild.getBoundingClientRect();
+
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: 'smooth',
+      });
+
       lightbox.refresh();
     })
     .catch(function (error) {
