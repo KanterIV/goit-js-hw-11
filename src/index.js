@@ -1,6 +1,9 @@
 import searchService from './js/search-service';
 import CreateMarkup from './js/CreateMarkup';
 import { Notify } from 'notiflix';
+import { Loading } from 'notiflix';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
   form: document.querySelector('form'),
@@ -24,6 +27,7 @@ refs.form.addEventListener('submit', onSearchSubmit);
 
 function onSearchSubmit(event) {
   event.preventDefault();
+  Loading.dots();
   refs.button.disabled = true;
   refs.gallary.innerHTML = '';
 
@@ -47,6 +51,11 @@ function onSearchSubmit(event) {
         refs.loadMore.classList.replace('load-more-hidden', 'load-more');
       }
       refs.loadMore.disabled = false;
+
+      const lightbox = new SimpleLightbox('.photo-card a', {
+        captionDelay: 250,
+        showCounter: false,
+      });
     })
     .catch(function (error) {
       if (error.response) {
@@ -56,12 +65,14 @@ function onSearchSubmit(event) {
       } else {
         console.log('Array length is 0', error);
       }
-    });
+    })
+    .finally(() => Loading.remove());
 }
 
 refs.loadMore.addEventListener('click', onLoadMoreClick);
 
 function onLoadMoreClick() {
+  Loading.dots();
   refs.loadMore.disabled = true;
 
   currentPage += 1;
@@ -77,7 +88,8 @@ function onLoadMoreClick() {
       } else if (error.request) {
         Notify.failure(fechError);
       }
-    });
+    })
+    .finally(() => Loading.remove());
 
   if (currentPage >= pageLimit) {
     refs.loadMore.classList.replace('load-more', 'load-more-hidden');

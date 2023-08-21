@@ -1,3 +1,5 @@
+import simpleLightbox from 'simplelightbox';
+
 export default function CreateMarkup(arr) {
   return arr
     .map(
@@ -10,8 +12,8 @@ export default function CreateMarkup(arr) {
         comments,
         downloads,
       }) => {
-        const card = `<div class="photo-card">
-      <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+        const card = `<div class="photo-card"> <a class="gallery__link" href="${largeImageURL}">
+      <img src="${webformatURL}" alt="${tags}" loading="lazy" /> <a/>
       <div class="info">
         <p class="info-item">
           <b>Likes</b> ${likes}
