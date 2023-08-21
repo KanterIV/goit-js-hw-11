@@ -23,6 +23,11 @@ const fechError = 'Sorry, something went wrong. Try again!';
 const endOfResultsInfo =
   "We're sorry, but you've reached the end of search results.";
 
+const lightbox = new SimpleLightbox('.photo-card a', {
+  captionDelay: 250,
+  showCounter: false,
+});
+
 refs.form.addEventListener('submit', onSearchSubmit);
 
 function onSearchSubmit(event) {
@@ -30,6 +35,7 @@ function onSearchSubmit(event) {
   Loading.dots();
   refs.button.disabled = true;
   refs.gallary.innerHTML = '';
+  currentPage = 1;
 
   userInput = event.target.elements[0].value;
 
@@ -49,16 +55,12 @@ function onSearchSubmit(event) {
       pageLimit = Math.ceil(totalHits / photoLimit);
 
       refs.gallary.insertAdjacentHTML('beforeend', CreateMarkup(data.hits));
+      lightbox.refresh();
 
       if (currentPage < pageLimit) {
         refs.loadMore.classList.replace('load-more-hidden', 'load-more');
       }
       refs.loadMore.disabled = false;
-
-      const lightbox = new SimpleLightbox('.photo-card a', {
-        captionDelay: 250,
-        showCounter: false,
-      });
     })
     .catch(function (error) {
       if (error.response) {
@@ -84,6 +86,7 @@ function onLoadMoreClick() {
     .then(({ data: { hits } }) => {
       refs.gallary.insertAdjacentHTML('beforeend', CreateMarkup(hits));
       refs.loadMore.disabled = false;
+      lightbox.refresh();
     })
     .catch(function (error) {
       if (error.response) {
