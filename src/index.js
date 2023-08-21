@@ -36,8 +36,11 @@ function onSearchSubmit(event) {
   searchService(userInput, photoLimit, currentPage)
     .then(({ data, data: { totalHits } }) => {
       refs.button.disabled = false;
+
       const successInfo = `Hooray! We found ${totalHits} images.`;
-      Notify.success(successInfo);
+      if (totalHits > 0) {
+        Notify.success(successInfo);
+      }
 
       if (data.hits.length === 0) {
         throw new Error(Notify.info(arrayError));
